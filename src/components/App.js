@@ -10,44 +10,53 @@ import ImagePopup from './ImagePopup';
 function App() {
   // Хуки, управляющие внутренним состоянием.
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  // const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  // const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   
 
   function handleEditAvatarClick() {
-    console.log(isEditAvatarPopupOpen);
     setIsEditAvatarPopupOpen(true);
-    return isEditAvatarPopupOpen;
   } 
 
-  // function handleEditProfileClick() {
-  //   setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
-  // }
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
 
-  // function handleAddPlaceClick() {
-  //   setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
-  // }
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
+  function closeAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  }
 
   return (
     <div className="page">
       <Header />
       <Main
       onEditAvatar={handleEditAvatarClick} 
-      // onEditProfile={handleEditProfileClick}
-      // onAddPlace={handleAddPlaceClick}          
+      onEditProfile={handleEditProfileClick}
+      onAddPlace={handleAddPlaceClick}
       />
       <Footer />
       <ImagePopup />
-      <PopupEditProfile      
-      />
-      
-      <PopupAddPlace />
-      <PopupEditAvatar 
+      <PopupEditAvatar
       isOpen = {isEditAvatarPopupOpen}
+      onClose = {closeAllPopups}
       />
-      <PopupDeleteCard />
-         
-    
+      <PopupEditProfile
+      isOpen = {isEditProfilePopupOpen}
+      onClose = {closeAllPopups}      
+      />
+      <PopupAddPlace
+      isOpen = {isAddPlacePopupOpen}
+      onClose = {closeAllPopups}
+      />
+      <PopupDeleteCard
+      onClose = {closeAllPopups}
+      />    
     </div>
   );
 }

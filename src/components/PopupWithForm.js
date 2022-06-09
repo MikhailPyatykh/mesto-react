@@ -2,11 +2,15 @@ import "../index.css";
 import React from "react";
 
 function PopupWithForm(props) {
-  // console.log(props.isOpen);
+  // console.log(props.onClose);
   return (
-      <section className={`popup popup_${props.name}`}>
+      <section className={`popup popup_${props.name} ${props.isOpen?'popup_opened' : ''}`}>
         <div className='popup__container'>
-          <button type='button' className='popup__close-btn'></button>
+          <button 
+          type='button'
+          className='popup__close-btn'
+          onClick={props.onClose}
+          ></button>
           <div className='popup__block'>
             <h3 className='popup__heading'>{props.title}</h3>
             <form
@@ -25,12 +29,14 @@ function PopupWithForm(props) {
   );
 }
 
-function PopupEditAvatar() {
+function PopupEditAvatar(props) {
   return (
     <PopupWithForm
     name="edit-avatar"
     title="Обновить аватар"
     submitText = "Сохранить"
+    isOpen = {props.isOpen}
+    onClose = {props.onClose}
     >
     <input
       required
@@ -48,12 +54,14 @@ function PopupEditAvatar() {
   )
 }
 
-function PopupEditProfile() {
+function PopupEditProfile(props) {
   return (
     <PopupWithForm
       name="edit_profile"
       title="Редактировать профиль"
       submitText = "Сохранить"
+      isOpen = {props.isOpen}
+      onClose = {props.onClose}
     >          
     <input
       required
@@ -87,12 +95,14 @@ function PopupEditProfile() {
   )
 }
 
-function PopupAddPlace() {
+function PopupAddPlace(props) {
   return (
     <PopupWithForm
     name="add_place"
     title="Новое место"
     submitText = "Создать"
+    isOpen = {props.isOpen}
+    onClose = {props.onClose}
     >
     <input
       required
@@ -126,12 +136,13 @@ function PopupAddPlace() {
   )
 }
 
-function PopupDeleteCard() {
+function PopupDeleteCard(props) {
   return (
     <PopupWithForm
     name="delete-card"
     title="Вы уверены?"
     submitText = "Да"
+    onClose = {props.onClose}
     />
   )
 }
