@@ -1,18 +1,28 @@
 import "../index.css";
 
-function ImagePopup() {
+function ImagePopup(props) {
   return (
-    <>
-    <section className='popup popup_view'>
-        <div className='popup__container'>
-          <button type='button' className='popup__close-btn'></button>
-          <figure className='popup__figure'>
-            <img className='popup__picture' src='.' alt='.' />
-            <figcaption className='popup__caption'></figcaption>
-          </figure>
-        </div>
+    <section
+      className={`popup popup_view${props.card && props.isOpen ? " popup_opened" : ""}`}
+    >
+      <div className="popup__container">
+        <button
+          type="button"
+          className="popup__close-btn"
+          onClick={props.onClose}
+        ></button>
+        <figure className="popup__figure">
+          <img
+            className="popup__picture"
+            src={props.card ? props.card.link : ""}
+            alt={`Вид на ${props.card ? props.card.name : ""}`}
+          />
+          <figcaption className="popup__caption">
+            {props.card ? props.card.name : ""}
+          </figcaption>
+        </figure>
+      </div>
     </section>
-    </>
   );
 }
 
