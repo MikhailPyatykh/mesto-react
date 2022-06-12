@@ -14,4 +14,4 @@
 Выполнил: Пятых Михаил
 
 Проект можно посмотреть по этой ссылке
-[Проект: "Mesto React"]()
+[Проект: "Mesto React"](https://mikhailpyatykh.github.io/mesto-react/)

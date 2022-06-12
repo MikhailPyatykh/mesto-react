@@ -1,10 +1,6 @@
 import "../index.css";
 
 function Card(props) {
-  function handleCardClick() {
-    props.handleClick();
-  }
-
   return (
     <section className="places">
       <ul className="places__list">
@@ -14,7 +10,7 @@ function Card(props) {
               src={item.link}
               className="place__image"
               alt={`Вид на ${item.name}`}
-              onClick={handleCardClick}
+              // onClick={handleCardClick}
             />
             <div className="place__icon-basket"></div>
             <div className="place__card-info">

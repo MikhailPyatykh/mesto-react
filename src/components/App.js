@@ -24,9 +24,9 @@ function App() {
     setUserAbout(data.about);
   }
 
-  function handleCardClick(card) {
-    setSelectedCard(card);
-    setIsImagePopupOpen(true);
+  function handleCardClick(cardData) {
+    setSelectedCard(cardData);
+    // setIsImagePopupOpen(true);
   }
 
   function handleEditAvatarClick() {

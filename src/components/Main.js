@@ -9,10 +9,6 @@ function Main(props) {
   const [userAvatar, setUserAvatar] = useState("");
   const [cards, setCards] = useState([]);
 
-  function handleClick(cardData) {
-    props.onCardClick(cardData);
-  }
-
   useEffect(() => {
     Promise.all([api.getUserData(), api.getCards()])
       .then(([profileData, cards]) => {
@@ -60,7 +56,7 @@ function Main(props) {
           className="profile__add-button"
         ></button>
       </section>
-      <Card cards={cards} handleClick={handleClick} />
+      <Card cards={cards} onCardClick={props.onCardClick} />
     </main>
   );
 }
