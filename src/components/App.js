@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import "../index.css";
-import React from "react";
+import { useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -9,11 +9,20 @@ import ImagePopup from "./ImagePopup";
 
 function App() {
   // Хуки, управляющие внутренним состоянием.
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState();
-  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [avatarLink, setAvatarLink] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [userAbout, setUserAbout] = useState(null);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+
+  function userGetData(data) {
+    setAvatarLink(data.avatar);
+    setUserName(data.name);
+    setUserAbout(data.about);
+  }
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -47,6 +56,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onCardClick={handleCardClick}
+        userGetData={userGetData}
       />
       <Footer />
 
@@ -68,7 +78,8 @@ function App() {
           name="avatarLinkInput"
           id="avatarLink"
           type="url"
-          className="popup__input popup__input_type_avatar-link"
+          className="popup__input"
+          placeholder={`${avatarLink}`}
         />
         <span className="error" id="avatarLink-error" name="avatarLinkInputError"></span>
       </PopupWithForm>
@@ -87,7 +98,8 @@ function App() {
           minLength="2"
           maxLength="40"
           type="text"
-          className="popup__input popup__input_type_fio"
+          className="popup__input"
+          placeholder={`${userName}`}
         />
         <span className="error" id="name-error" name="editProfileInputsError"></span>
         <input
@@ -97,7 +109,8 @@ function App() {
           minLength="2"
           maxLength="200"
           type="text"
-          className="popup__input popup__input_type_occupation"
+          className="popup__input"
+          placeholder={`${userAbout}`}
         />
         <span className="error" id="occupation-error" name="occupationInputError"></span>
       </PopupWithForm>
