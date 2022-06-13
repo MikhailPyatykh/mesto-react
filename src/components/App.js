@@ -12,11 +12,11 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [avatarLink, setAvatarLink] = useState(null);
   const [userName, setUserName] = useState(null);
   const [userAbout, setUserAbout] = useState(null);
-  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
 
   function userGetData(data) {
     setAvatarLink(data.avatar);
@@ -26,7 +26,7 @@ function App() {
 
   function handleCardClick(cardData) {
     setSelectedCard(cardData);
-    // setIsImagePopupOpen(true);
+    setIsImagePopupOpen(true);
   }
 
   function handleEditAvatarClick() {
@@ -62,8 +62,8 @@ function App() {
 
       <ImagePopup
         card={selectedCard}
-        onClose={closeAllPopups}
         isOpen={isImagePopupOpen}
+        onClose={closeAllPopups}
       />
 
       <PopupWithForm

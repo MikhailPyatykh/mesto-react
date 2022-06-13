@@ -18,6 +18,7 @@ function Main(props) {
         setUserAvatar(profileData.avatar);
         setCards(cards);
         props.userGetData(profileData);
+        // console.log(cards);
       })
       .catch((err) => {
         console.error(err);
@@ -56,7 +57,13 @@ function Main(props) {
           className="profile__add-button"
         ></button>
       </section>
-      <Card cards={cards} onCardClick={props.onCardClick} />
+      <section className="places">
+        <ul className="places__list">
+          {cards.map((card) => (
+            <Card key={card._id} card={card} onCardClick={props.onCardClick} />
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

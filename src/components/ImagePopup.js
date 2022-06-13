@@ -2,7 +2,7 @@ import "../index.css";
 
 function ImagePopup(props) {
   return (
-    <section className={`popup popup_view${props.card ? " popup_opened" : ""}`}>
+    <section className={`popup popup_view${props.isOpen ? " popup_opened" : ""}`}>
       <div className="popup__container">
         <button
           type="button"
