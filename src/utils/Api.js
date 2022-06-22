@@ -17,7 +17,7 @@ class Api {
       });
   }
 
-  getUserData() {
+  getUserInfo() {
     return this._makeRequest(
       fetch(`${this._config.baseUrl}/users/me`, {
         method: "GET",
