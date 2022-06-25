@@ -1,5 +1,4 @@
 import "../index.css";
-import React from "react";
 
 function PopupWithForm(props) {
   return (
@@ -14,7 +13,11 @@ function PopupWithForm(props) {
         ></button>
         <div className="popup__block">
           <h3 className="popup__heading">{props.title}</h3>
-          <form className="popup__inputs" name={`${props.name}`} noValidate>
+          <form
+            className="popup__inputs"
+            name={`${props.name}`}
+            onSubmit={props.onSubmit}
+          >
             {props.children}
             <button type="submit" className="popup__submit-btn">
               {props.submitText}

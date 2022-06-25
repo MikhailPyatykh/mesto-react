@@ -35,14 +35,14 @@ class Api {
     );
   }
 
-  patchProfileInfo(data) {
+  patchUserInfo(data) {
     return this._makeRequest(
       fetch(`${this._config.baseUrl}/users/me`, {
         method: "PATCH",
         headers: this._config.headers,
         body: JSON.stringify({
-          name: data.nameInput,
-          about: data.occupationInput,
+          name: data.name,
+          about: data.about,
         }),
       })
     );
@@ -63,7 +63,7 @@ class Api {
 
   deleteCard(data) {
     return this._makeRequest(
-      fetch(`${this._config.baseUrl}/cards/${data}`, {
+      fetch(`${this._config.baseUrl}/cards/${data._id}`, {
         method: "DELETE",
         headers: this._config.headers,
       })

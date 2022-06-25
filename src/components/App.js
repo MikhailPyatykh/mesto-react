@@ -6,6 +6,8 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardsContext } from "../contexts/CardsContext";
@@ -17,7 +19,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState({ name: "", about: "" });
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -56,6 +58,19 @@ function App() {
     setIsImagePopupOpen(false);
   }
 
+  function handleUpdateUser(userData) {
+    // console.log(userData);
+    api
+      .patchUserInfo(userData)
+      .then((newData) => {
+        setCurrentUser(newData);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    closeAllPopups();
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -66,6 +81,7 @@ function App() {
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
             onCardClick={handleCardClick}
+            setCards={setCards}
           />
           <Footer />
 
@@ -75,62 +91,13 @@ function App() {
             onClose={closeAllPopups}
           />
 
-          <PopupWithForm
-            name="edit-avatar"
-            title="Обновить аватар"
-            submitText="Сохранить"
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-          >
-            <input
-              required
-              name="avatarLinkInput"
-              id="avatarLink"
-              type="url"
-              className="popup__input"
-              placeholder={`${currentUser.avatar}`}
-            />
-            <span
-              className="error"
-              id="avatarLink-error"
-              name="avatarLinkInputError"
-            ></span>
-          </PopupWithForm>
-
-          <PopupWithForm
-            name="edit_profile"
-            title="Редактировать профиль"
-            submitText="Сохранить"
+          <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-          >
-            <input
-              required
-              name="nameInput"
-              id="name"
-              minLength="2"
-              maxLength="40"
-              type="text"
-              className="popup__input"
-              placeholder={`${currentUser.name}`}
-            />
-            <span className="error" id="name-error" name="editProfileInputsError"></span>
-            <input
-              required
-              name="occupationInput"
-              id="occupation"
-              minLength="2"
-              maxLength="200"
-              type="text"
-              className="popup__input"
-              placeholder={`${currentUser.about}`}
-            />
-            <span
-              className="error"
-              id="occupation-error"
-              name="occupationInputError"
-            ></span>
-          </PopupWithForm>
+            onUpdateUser={handleUpdateUser}
+          />
+
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
 
           <PopupWithForm
             name="add_place"
