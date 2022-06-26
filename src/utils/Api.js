@@ -35,7 +35,7 @@ class Api {
     );
   }
 
-  patchUserInfo(data) {
+  setUserInfo(data) {
     return this._makeRequest(
       fetch(`${this._config.baseUrl}/users/me`, {
         method: "PATCH",
@@ -48,14 +48,14 @@ class Api {
     );
   }
 
-  postNewCard(data) {
+  AddPlace(data) {
     return this._makeRequest(
       fetch(`${this._config.baseUrl}/cards`, {
         method: "POST",
         headers: this._config.headers,
         body: JSON.stringify({
-          name: data.newPlaceNameInput,
-          link: data.newPlaceLinkInput,
+          name: data.name,
+          link: data.link,
         }),
       })
     );
@@ -70,13 +70,13 @@ class Api {
     );
   }
 
-  patchAvatar(data) {
+  setUserAvatar(data) {
     return this._makeRequest(
       fetch(`${this._config.baseUrl}/users/me/avatar`, {
         method: "PATCH",
         headers: this._config.headers,
         body: JSON.stringify({
-          avatar: data.avatarLinkInput,
+          avatar: data.avatar,
         }),
       })
     );
@@ -103,10 +103,10 @@ class Api {
     );
   }
 
-  checkLikeID(array, data) {
-    const arrayLikes = array.likes;
-    return arrayLikes.find((element) => element._id === data._id);
-  }
+  // checkLikeID(array, data) {
+  //   const arrayLikes = array.likes;
+  //   return arrayLikes.find((element) => element._id === data._id);
+  // }
 }
 
 // Инициализируем класс Api

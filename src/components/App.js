@@ -8,6 +8,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardsContext } from "../contexts/CardsContext";
@@ -19,9 +20,10 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState({ name: "", about: "" });
+  const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
   const [cards, setCards] = useState([]);
 
+  //Запрос на сервер данных пользователя и списка карточек
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCards()])
       .then(([userInfo, cards]) => {
@@ -34,23 +36,28 @@ function App() {
       });
   }, []);
 
+  //Обработка клика по изображению карточки места
   function handleCardClick(cardData) {
     setSelectedCard(cardData);
     setIsImagePopupOpen(true);
   }
 
+  //Обработка клика по кнопке редактирования аватара пользователя
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
 
+  //Обработка клика по кнопке редактирования профиля пользователя
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
 
+  //Обработка клика по кнопке добавления нового места
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
   }
 
+  //Функция закрытия попапов
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -58,17 +65,89 @@ function App() {
     setIsImagePopupOpen(false);
   }
 
-  function handleUpdateUser(userData) {
-    // console.log(userData);
+  // Функция удаления карточки
+  function handleCardDelete(card) {
     api
-      .patchUserInfo(userData)
-      .then((newData) => {
-        setCurrentUser(newData);
+      .deleteCard(card)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== card._id));
       })
       .catch((err) => {
         console.error(err);
       });
-    closeAllPopups();
+  }
+
+  // Обновляем карточку после нажатия на кнопку лайк
+  function mapCards(card, newCard) {
+    setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+  }
+
+  // Функция обработки нажатия кнопки лайк у карточки
+  function handleCardLike(card, isLiked) {
+    // Если карточка лайкнута, лайк при нажатии убираем
+    if (isLiked) {
+      api
+        .removeLike(card)
+        .then((newCard) => {
+          mapCards(card, newCard);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      // Если карточка не лайкнута, лайк при нажатии добавляем
+    } else {
+      api
+        .putLike(card)
+        .then((newCard) => {
+          mapCards(card, newCard);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }
+
+  //Обработка изменения данных профиля пользователя
+  function handleUpdateUser(userData) {
+    api
+      .setUserInfo(userData)
+      .then((newData) => {
+        setCurrentUser(newData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  //Обработка изменения аватара пользователя
+  function handleUpdateAvatar(avatarData) {
+    api
+      .setUserAvatar(avatarData)
+      .then((newAvatar) => {
+        setCurrentUser(newAvatar);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  function clearInputs(clearing) {
+    return clearing;
+  }
+
+  //Обработка добавления нового места
+  function handleAddPlaceSubmit(newPlaceData) {
+    api
+      .AddPlace(newPlaceData)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   return (
@@ -82,6 +161,9 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onCardClick={handleCardClick}
             setCards={setCards}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
           <Footer />
 
@@ -97,44 +179,18 @@ function App() {
             onUpdateUser={handleUpdateUser}
           />
 
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
 
-          <PopupWithForm
-            name="add_place"
-            title="Новое место"
-            submitText="Создать"
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-          >
-            <input
-              required
-              name="newPlaceNameInput"
-              id="newPlaceName"
-              minLength="2"
-              maxLength="30"
-              type="text"
-              placeholder="Название"
-              className="popup__input popup__input_type_place"
-            />
-            <span
-              className="error"
-              id="newPlaceName-error"
-              name="newPlaceNameInputError"
-            ></span>
-            <input
-              required
-              name="newPlaceLinkInput"
-              id="newPlaceLink"
-              type="url"
-              placeholder="Ссылка на картинку"
-              className="popup__input popup__input_type_link"
-            />
-            <span
-              className="error"
-              id="newPlaceLink-error"
-              name="newPlaceLinkInputError"
-            ></span>
-          </PopupWithForm>
+            onAddPlace={handleAddPlaceSubmit}
+            clearInputs={clearInputs}
+          />
 
           <PopupWithForm
             name="delete-card"
