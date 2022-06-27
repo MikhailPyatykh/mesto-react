@@ -22,6 +22,8 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
   const [cards, setCards] = useState([]);
+  const [place, setPlace] = useState("");
+  const [link, setLink] = useState("");
 
   //Запрос на сервер данных пользователя и списка карточек
   useEffect(() => {
@@ -113,6 +115,8 @@ function App() {
       .setUserInfo(userData)
       .then((newData) => {
         setCurrentUser(newData);
+      })
+      .then(() => {
         closeAllPopups();
       })
       .catch((err) => {
@@ -126,15 +130,13 @@ function App() {
       .setUserAvatar(avatarData)
       .then((newAvatar) => {
         setCurrentUser(newAvatar);
+      })
+      .then(() => {
         closeAllPopups();
       })
       .catch((err) => {
         console.error(err);
       });
-  }
-
-  function clearInputs(clearing) {
-    return clearing;
   }
 
   //Обработка добавления нового места
@@ -143,7 +145,13 @@ function App() {
       .AddPlace(newPlaceData)
       .then((newCard) => {
         setCards([newCard, ...cards]);
+      })
+      .then(() => {
         closeAllPopups();
+      })
+      .then(() => {
+        setPlace("");
+        setLink("");
       })
       .catch((err) => {
         console.error(err);
@@ -189,7 +197,10 @@ function App() {
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
-            clearInputs={clearInputs}
+            setPlace={setPlace}
+            setLink={setLink}
+            place={place}
+            link={link}
           />
 
           <PopupWithForm
