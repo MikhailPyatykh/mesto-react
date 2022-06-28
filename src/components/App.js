@@ -12,6 +12,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardsContext } from "../contexts/CardsContext";
+import { Route } from "react-router-dom";
 
 function App() {
   // Хуки, управляющие внутренним состоянием.
@@ -153,6 +154,9 @@ function App() {
   }
 
   return (
+    // <Route
+    // path="/"
+    // element={
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <CardsContext.Provider value={cards}>
@@ -202,6 +206,8 @@ function App() {
         </CardsContext.Provider>
       </CurrentUserContext.Provider>
     </div>
+    // }
+    // ></Route>
   );
 }
 
