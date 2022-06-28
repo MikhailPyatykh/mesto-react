@@ -1,16 +1,14 @@
 import "../index.css";
 import PopupWithForm from "./PopupWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { useContext, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 function EditAvatarPopup(props) {
-  const currentUser = useContext(CurrentUserContext);
   const inputLinkAvatar = useRef("");
   const [link, setLink] = useState("");
 
   useEffect(() => {
-    setLink(currentUser.avatar);
-  }, [currentUser]);
+    setLink("");
+  }, [props.isOpen]);
 
   function handleChangeLink() {
     setLink(inputLinkAvatar.current.value);
@@ -33,12 +31,13 @@ function EditAvatarPopup(props) {
       onSubmit={handleSubmit}
     >
       <input
+        required
         type="url"
         ref={inputLinkAvatar}
         value={link}
         onChange={handleChangeLink}
         className="popup__input"
-        placeholder={`${currentUser.avatar}`}
+        placeholder="Ссылка на аватар"
       />
       <span className="error" id="avatarLink-error" name="avatarLinkInputError"></span>
     </PopupWithForm>

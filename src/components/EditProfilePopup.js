@@ -9,10 +9,9 @@ function EditProfilePopup(props) {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    // console.log(currentUser.name, currentUser.about);
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser && props.isOpen]);
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -44,6 +43,7 @@ function EditProfilePopup(props) {
         onSubmit={handleSubmit}
       >
         <input
+          required
           type="text"
           value={name}
           onChange={handleChangeName}
@@ -52,6 +52,8 @@ function EditProfilePopup(props) {
         />
         <span className="error" id="name-error" name="editProfileInputsError"></span>
         <input
+          required
+          type="text"
           value={description}
           onChange={handleChangeDescription}
           className="popup__input"

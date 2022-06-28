@@ -22,8 +22,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
   const [cards, setCards] = useState([]);
-  const [place, setPlace] = useState("");
-  const [link, setLink] = useState("");
 
   //Запрос на сервер данных пользователя и списка карточек
   useEffect(() => {
@@ -149,10 +147,6 @@ function App() {
       .then(() => {
         closeAllPopups();
       })
-      .then(() => {
-        setPlace("");
-        setLink("");
-      })
       .catch((err) => {
         console.error(err);
       });
@@ -197,10 +191,6 @@ function App() {
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
-            setPlace={setPlace}
-            setLink={setLink}
-            place={place}
-            link={link}
           />
 
           <PopupWithForm
