@@ -1,5 +1,3 @@
-import "../index.css";
-
 function ImagePopup(props) {
   return (
     <section className={`popup popup_view${props.isOpen ? " popup_opened" : ""}`}>

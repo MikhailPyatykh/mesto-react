@@ -1,5 +1,3 @@
-// import logo from './logo.svg';
-import "../index.css";
 import { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
@@ -12,7 +10,6 @@ import AddPlacePopup from "./AddPlacePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardsContext } from "../contexts/CardsContext";
-import { Route } from "react-router-dom";
 
 function App() {
   // Хуки, управляющие внутренним состоянием.

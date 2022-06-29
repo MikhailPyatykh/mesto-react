@@ -1,5 +1,3 @@
-import "../index.css";
-
 function Card(props) {
   //Обработка клика по картинке карточки
   function handleCardClick() {

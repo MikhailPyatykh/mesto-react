@@ -1,4 +1,3 @@
-import "../index.css";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { useContext, useEffect, useState } from "react";

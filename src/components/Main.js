@@ -1,4 +1,3 @@
-import "../index.css";
 import { useContext } from "react";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
